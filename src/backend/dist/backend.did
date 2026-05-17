@@ -1,0 +1,104 @@
+type _ImmutableObjectStorageRefillResult = 
+ record {
+   success: opt bool;
+   topped_up_amount: opt nat;
+ };
+type _ImmutableObjectStorageRefillInformation = record {
+                                                  proposed_top_up_amount:
+                                                   opt nat;};
+type _ImmutableObjectStorageCreateCertificateResult = 
+ record {
+   blob_hash: text;
+   method: text;
+ };
+type UserRole = 
+ variant {
+   admin;
+   guest;
+   user;
+ };
+type Timestamp = int;
+type StockStatus = 
+ variant {
+   InStock;
+   OutOfStock;
+ };
+type ProductId = nat;
+type Product = 
+ record {
+   category: Category;
+   createdAt: Timestamp;
+   description: text;
+   id: ProductId;
+   imageKey: ExternalBlob;
+   name: text;
+   price: nat;
+   stockStatus: StockStatus;
+ };
+type PlaceOrderInput = 
+ record {
+   address: text;
+   customerName: text;
+   items: vec OrderItem;
+   phone: text;
+ };
+type OrderStatus = 
+ variant {
+   Cancelled;
+   Confirmed;
+   Pending;
+ };
+type OrderItem = 
+ record {
+   productId: ProductId;
+   qty: nat;
+ };
+type OrderInquiry = 
+ record {
+   address: text;
+   createdAt: Timestamp;
+   customerName: text;
+   id: OrderId;
+   items: vec OrderItem;
+   phone: text;
+   status: OrderStatus;
+   totalAmount: nat;
+ };
+type OrderId = nat;
+type ExternalBlob = blob;
+type Category = 
+ variant {
+   Clothing;
+   Diapers;
+   Gear;
+   Toys;
+ };
+service : {
+  _immutableObjectStorageBlobsAreLive: (hashes: vec blob) -> (vec bool) query;
+  _immutableObjectStorageBlobsToDelete: () -> (vec blob) query;
+  _immutableObjectStorageConfirmBlobDeletion: (blobs: vec blob) -> ();
+  _immutableObjectStorageCreateCertificate: (blobHash: text) ->
+   (_ImmutableObjectStorageCreateCertificateResult);
+  _immutableObjectStorageRefillCashier: (refillInformation:
+   opt _ImmutableObjectStorageRefillInformation) ->
+   (_ImmutableObjectStorageRefillResult);
+  _immutableObjectStorageUpdateGatewayPrincipals: () -> ();
+  _initializeAccessControl: () -> ();
+  assignCallerUserRole: (user: principal, role: UserRole) -> ();
+  createProduct: (name: text, description: text, price: nat, category:
+   Category, imageKey: ExternalBlob, stockStatus: StockStatus) -> (Product);
+  deleteProduct: (id: ProductId) -> (bool);
+  getCallerUserRole: () -> (UserRole) query;
+  getOrderInquiries: () -> (vec OrderInquiry);
+  getProduct: (id: ProductId) -> (opt Product) query;
+  isCallerAdmin: () -> (bool) query;
+  listProducts: () -> (vec Product) query;
+  listProductsByCategory: (category: Category) -> (vec Product) query;
+  placeOrderInquiry: (input: PlaceOrderInput) -> (OrderInquiry);
+  searchProducts: (searchQuery: text) -> (vec Product) query;
+  seedSampleProducts: () -> ();
+  updateOrderStatus: (id: OrderId, status: OrderStatus) -> (bool);
+  updateProduct: (id: ProductId, name: text, description: text, price: 
+   nat, category: Category, imageKey: ExternalBlob, stockStatus:
+   StockStatus) -> (bool);
+}

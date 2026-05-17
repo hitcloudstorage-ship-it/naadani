@@ -1,0 +1,64 @@
+// Version: 1.0.0
+type Category__8224233 = {#Clothing; #Diapers; #Gear; #Toys};
+type Data__791452850<K, V> =
+  {var count : Nat__490723111; kvs : [var ?(K, V)]};
+type ExternalBlob__671167343 = Blob;
+type Internal__8484328<K, V> =
+  {children : [var ?Node__46230540<K, V>]; data : Data__791452850<K, V>};
+type Leaf__809889148<K, V> = {data : Data__791452850<K, V>};
+type Map__158565046<K, V> = Map__297112838<K, V>;
+type Map__297112838<K, V> =
+  {var root : Node__46230540<K, V>; var size : Nat__490723111};
+type Map__605269027<K, V> = Map__158565046<K, V>;
+type Nat__490723111 = Nat__920180692;
+type Nat__920180692 = Nat;
+type Node__46230540<K, V> =
+  {#internal : Internal__8484328<K, V>; #leaf : Leaf__809889148<K, V>};
+type OrderId__197865225 = Nat;
+type OrderInquiry__687877520 =
+  {
+    address : Text;
+    createdAt : Timestamp__301639476;
+    customerName : Text;
+    id : OrderId__197865225;
+    items : [OrderItem__241319351];
+    phone : Text;
+    status : OrderStatus__272730104;
+    totalAmount : Nat
+  };
+type OrderItem__241319351 = {productId : ProductId__160010635; qty : Nat};
+type OrderStatus__272730104 = {#Cancelled; #Confirmed; #Pending};
+type ProductId__160010635 = Nat;
+type Product__750902660 =
+  {
+    category : Category__8224233;
+    createdAt : Timestamp__301639476;
+    description : Text;
+    id : ProductId__160010635;
+    imageKey : ExternalBlob__671167343;
+    name : Text;
+    price : Nat;
+    stockStatus : StockStatus__755125146
+  };
+type StockStatus__755125146 = {#InStock; #OutOfStock};
+type Timestamp__301639476 = Int;
+type UserRole__1073662873 = {#admin; #guest; #user};
+actor {
+  stable accessControlState :
+    {
+      var adminAssigned : Bool;
+      userRoles : Map__605269027<Principal, UserRole__1073662873>
+    };
+  stable orderState : {var nextOrderId : OrderId__197865225};
+  stable orders :
+    {
+      var root : Node__46230540<OrderId__197865225, OrderInquiry__687877520>;
+      var size : Nat__490723111
+    };
+  stable productState : {var nextProductId : ProductId__160010635};
+  stable products :
+    {
+      var root : Node__46230540<ProductId__160010635, Product__750902660>;
+      var size : Nat__490723111
+    }
+};

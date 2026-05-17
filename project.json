@@ -1,0 +1,24 @@
+{
+  "overview": "Naadani.in is a mobile-first baby products online store for Indian parents. Browse clothing, diapers, gear, and toys with INR pricing, add to cart, and place order inquiries. Includes an admin panel for product and order management.",
+  "features": [
+    "Product catalog with 4 categories: Clothing, Diapers, Gear, Toys",
+    "Product detail pages with images and INR pricing",
+    "Shopping cart with quantity management and ₹ totals",
+    "Order inquiry checkout (COD model)",
+    "Admin dashboard with login, product CRUD, and image uploads",
+    "Order inquiry inbox for admin",
+    "Sample products pre-seeded across all categories",
+    "Mobile-first warm Indian design with soft pastels"
+  ],
+  "category": "e-commerce",
+  "tags": [
+    "baby-products",
+    "india",
+    "e-commerce",
+    "shopping",
+    "parenting",
+    "inr",
+    "mobile-first"
+  ],
+  "last_updated": "2026-05-17T01:32:20.060Z"
+}
